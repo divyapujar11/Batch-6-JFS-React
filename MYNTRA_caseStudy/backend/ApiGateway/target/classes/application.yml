@@ -1,0 +1,43 @@
+
+
+server:
+  port: 8088
+  
+  
+
+
+#spring:
+#  cloud:
+#    gateway:
+#      routes:
+#      - id: coupons
+#        uri: http://localhost:8083/
+#        predicates:
+#        - Path=/coupon/**
+#        
+#      - id: payment
+#        uri: http://localhost:8084/
+#        predicates:
+#        - Path=/dopay/**
+#
+#      - id: profile-service
+#        uri: http://localhost:8085/
+#        predicates:
+#        - Path=/user/**
+#        
+#
+#      - id: cart
+#        uri: http://localhost:8082/
+#        predicates:
+#        - Path=/cart/**
+#  
+#    
+#
+#        
+#        
+        
+     
+        
+        
+
+
