@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">profile-service</a> &gt; <a href="index.source.html" class="el_package">com.profile.model</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">package com.profile.model;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@Document(collection=&quot;user&quot;)
+public class User {
+
+	  @Id
+	    private String id;
+	  @Field
+	    private String email;
+	    private String password;
+	    private long mobileNumber;
+	    private String gender;
+	    
+	  
+		
+		public String getId() {
+<span class="nc" id="L21">			return id;</span>
+		}
+
+
+
+		public void setId(String id) {
+<span class="nc" id="L27">			this.id = id;</span>
+<span class="nc" id="L28">		}</span>
+
+
+
+		public String getemail() {
+<span class="nc" id="L33">			return email;</span>
+		}
+
+
+
+		public void email(String userName) {
+<span class="nc" id="L39">			this.email = email;</span>
+<span class="nc" id="L40">		}</span>
+
+
+
+		public String getPassword() {
+<span class="nc" id="L45">			return password;</span>
+		}
+
+
+
+		public void setPassword(String password) {
+<span class="nc" id="L51">			this.password = password;</span>
+<span class="nc" id="L52">		}</span>
+
+
+
+		public long getMobileNumber() {
+<span class="nc" id="L57">			return mobileNumber;</span>
+		}
+
+
+
+		public void setMobileNumber(long mobileNumber) {
+<span class="nc" id="L63">			this.mobileNumber = mobileNumber;</span>
+<span class="nc" id="L64">		}</span>
+
+
+
+		public String getGender() {
+<span class="nc" id="L69">			return gender;</span>
+		}
+
+
+
+		public void setGender(String gender) {
+<span class="nc" id="L75">			this.gender = gender;</span>
+<span class="nc" id="L76">		}</span>
+
+
+
+		public User( String userName,String password, long mobileNumber, String gender) {
+<span class="nc" id="L81">			super();</span>
+			
+<span class="nc" id="L83">			this.email = email;</span>
+<span class="nc" id="L84">			this.password = password;</span>
+<span class="nc" id="L85">			this.mobileNumber = mobileNumber;</span>
+<span class="nc" id="L86">			this.gender = gender;</span>
+<span class="nc" id="L87">		}</span>
+
+
+
+		@Override
+		public String toString() {
+<span class="nc" id="L93">			return &quot;Profile  [ email=&quot; + email +&quot;password =&quot;+password+&quot; mobile number = &quot;+mobileNumber + &quot; gender =&quot;+gender+&quot;]&quot;;</span>
+		}
+	    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

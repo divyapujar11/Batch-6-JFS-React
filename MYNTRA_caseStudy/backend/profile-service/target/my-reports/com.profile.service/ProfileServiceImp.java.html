@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProfileServiceImp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">profile-service</a> &gt; <a href="index.source.html" class="el_package">com.profile.service</a> &gt; <span class="el_source">ProfileServiceImp.java</span></div><h1>ProfileServiceImp.java</h1><pre class="source lang-java linenums">package com.profile.service;
+
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.profile.exception.CatalogRequestException;
+import com.profile.model.User;
+import com.profile.repo.UserRepo;
+
+
+
+@Service
+<span class="nc" id="L20">public class ProfileServiceImp implements ProfileService {</span>
+	
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	UserRepo repository;
+
+	@Override
+	public User addUser(User user) {
+		 
+<span class="nc" id="L32">		System.out.println(&quot;Hi &quot;+user.getemail()+&quot; welcome to group!&quot;);</span>
+<span class="nc" id="L33">		 user.setPassword(passwordEncoder.encode(user.getPassword()));</span>
+<span class="nc" id="L34">		return repository.save(user);</span>
+	}
+
+	
+
+	@Override
+	public List&lt;User&gt; getUsers() {
+	
+<span class="nc" id="L42">		List&lt;User&gt; users = repository.findAll();</span>
+<span class="nc" id="L43">		System.out.println(&quot;retrieved all users : &quot; + users);</span>
+<span class="nc" id="L44">		return users;</span>
+	}
+	
+	
+	@Override
+	public ResponseEntity&lt;Object&gt; updateuser(String id, User user) {
+		
+		
+<span class="nc" id="L52">		boolean isUserExist=repository.existsById(id);</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">		 if(isUserExist) {</span>
+<span class="nc" id="L54">			 user.setPassword(passwordEncoder.encode(user.getPassword()));</span>
+<span class="nc" id="L55">		 	repository.save(user);</span>
+<span class="nc" id="L56">		    	return new ResponseEntity&lt;Object&gt;(&quot;user Updated Successfully with id &quot;+id,HttpStatus.OK);</span>
+		 }
+		 else
+		 {
+<span class="nc" id="L60">			 throw new CatalogRequestException(&quot;CAN NOT UPDATE AS USER NOT FOUND WITH THIS ID ::&quot;);</span>
+		 }
+	}
+		
+
+	
+	public ResponseEntity&lt;Object&gt; deleteById(String id)
+	{
+<span class="nc" id="L68">		boolean isUserExist=repository.existsById(id);</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">		 if(isUserExist) {</span>
+<span class="nc" id="L70">			 repository.deleteById(id);</span>
+<span class="nc" id="L71">			 return new ResponseEntity&lt;Object&gt;(&quot;user deleted with id &quot;+id,HttpStatus.OK);</span>
+		 }
+		 else
+		 {
+<span class="nc" id="L75">		 	throw new CatalogRequestException(&quot;CAN NOT DELETE AS USER NOT FOUND WITH THIS ID ::&quot;);</span>
+		 }
+	}
+
+	@Override
+	public Optional&lt;User&gt; getuser(String id) {
+<span class="nc" id="L81">		return Optional.of(repository.findById(id)</span>
+<span class="nc" id="L82">				 .orElseThrow( () -&gt; new CatalogRequestException(&quot;CUSTOMER NOT FOUND WITH THIS ID ::&quot;)));</span>
+		
+	}
+
+	@Override
+	public String greet()
+	{
+<span class="nc" id="L89">		return &quot;welcome to our home&quot;;</span>
+	}
+
+
+
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
