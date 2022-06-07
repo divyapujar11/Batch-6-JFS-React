@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CartController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">coupon-service</a> &gt; <a href="index.source.html" class="el_package">com.cg.controller</a> &gt; <span class="el_source">CartController.java</span></div><h1>CartController.java</h1><pre class="source lang-java linenums">package com.cg.controller;
+
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import com.cg.entity.Cart;
+import com.cg.entity.CartDetails;
+import com.cg.entity.Product;
+import com.cg.service.CartService;
+
+
+@CrossOrigin(&quot;*&quot;)
+@RestController
+@RequestMapping(&quot;/cart&quot;)
+<span class="fc" id="L29">public class CartController {</span>
+	
+	@Autowired
+	private CartService cartService;
+	
+	@Autowired
+	private LoadBalancerClient loadBalancerClient;
+	
+	
+<span class="fc" id="L38">	private RestTemplate restTemplate = new RestTemplate();</span>
+	
+	@PostMapping(&quot;/add&quot;)
+	public String addToCart(@RequestBody Cart cart)
+	{
+<span class="nc" id="L43">		String status = cartService.addToCart(cart);</span>
+<span class="nc" id="L44">		return status;</span>
+	}
+
+	@DeleteMapping(&quot;/delete&quot;)
+	public String removeFromCart(@RequestBody Cart cart)
+	{
+<span class="nc" id="L50">		String status = cartService.removeFromCart(cart);</span>
+<span class="nc" id="L51">		return status;</span>
+	}
+	
+	@GetMapping(&quot;/show/{userId}&quot;)
+	public CartDetails displayAllProducts(@PathVariable String userId)
+	{
+<span class="nc" id="L57">		CartDetails cartDetails = new CartDetails();</span>
+<span class="nc" id="L58">		cartDetails.setUserId(userId);</span>
+		
+<span class="nc" id="L60">		ArrayList&lt;Cart&gt; cartList = cartService.displayAllProducts(userId);</span>
+<span class="nc" id="L61">		ArrayList&lt;Product&gt; products = new ArrayList&lt;Product&gt;();</span>
+		
+<span class="nc bnc" id="L63" title="All 2 branches missed.">		for(int i=0;i&lt;cartList.size();i++)</span>
+		{
+<span class="nc" id="L65">			Product productInfo = restTemplate.getForObject(getBaseUrl() + &quot;/v1/product/&quot; + cartList.get(i).getProductId(), Product.class);</span>
+<span class="nc" id="L66">			products.add(productInfo);</span>
+		}
+		
+<span class="nc" id="L69">		cartDetails.setProductList(products);</span>
+<span class="nc" id="L70">		return cartDetails;</span>
+	}
+	
+	private String getBaseUrl()
+	{
+<span class="nc" id="L75">		ServiceInstance instance = loadBalancerClient.choose(&quot;PRODUCTS MICROSERVICE IN DEV ENV&quot;);</span>
+<span class="nc" id="L76">		return instance.getUri().toString();</span>
+	}
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
