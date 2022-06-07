@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "product",
+      "type": "com.cg.product.config.ProductConfiguration",
+      "sourceType": "com.cg.product.config.ProductConfiguration"
+    }
+  ],
+  "properties": [
+    {
+      "name": "product.currencies",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "com.cg.product.config.ProductConfiguration"
+    }
+  ],
+  "hints": []
+}

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">product</a> &gt; <a href="index.source.html" class="el_package">com.cg.product.service</a> &gt; <span class="el_source">ProductService.java</span></div><h1>ProductService.java</h1><pre class="source lang-java linenums">package com.cg.product.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
+import org.springframework.stereotype.Service;
+
+import com.cg.product.config.ProductConfiguration;
+import com.cg.product.exception.CurrencyNotValidException;
+import com.cg.product.exception.OfferNotValidException;
+import com.cg.product.model.Product;
+import com.cg.product.repository.ProductRepository;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+<span class="fc" id="L20">@AllArgsConstructor</span>
+<span class="fc" id="L21">@Slf4j</span>
+@Service
+public class ProductService {
+
+	private ProductRepository productRepository;
+	
+	private ProductConfiguration productConfiguration;
+
+	
+
+	public String addProduct(Product product) {
+
+<span class="fc" id="L33">		log.info(&quot;adding product&quot;);</span>
+<span class="pc bpc" id="L34" title="1 of 4 branches missed.">		if (product.getPrice() == 0 &amp;&amp; product.getDiscount() &gt; 0) {</span>
+<span class="fc" id="L35">			throw new OfferNotValidException(&quot;No discount is allowed at 0 product price&quot;);</span>
+		}
+
+		
+		
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">		if (!productConfiguration.getCurrencies().contains(product.getCurrency().toUpperCase())) {</span>
+<span class="fc" id="L41">			throw new CurrencyNotValidException(&quot;Invalid Currency. Valid currencies:&quot; +  productConfiguration.getCurrencies());</span>
+		}
+
+<span class="nc" id="L44">		productRepository.save(product);</span>
+
+<span class="nc" id="L46">		return &quot;success&quot;;</span>
+
+	}
+
+	public List&lt;Product&gt; listAllProduct() {
+<span class="nc" id="L51">		return productRepository.findAll();</span>
+	}
+
+	public List&lt;Product&gt; productCatagoryList(String catagory) {
+
+<span class="nc" id="L56">		return productRepository.findByCategory(catagory);</span>
+	}
+
+	public Product productById(String id) {
+<span class="fc" id="L60">		return productRepository.findById(id).get();</span>
+	}
+
+	public String updateProduct(Product product) {
+
+<span class="nc" id="L65">		productRepository.save(product);</span>
+
+<span class="nc" id="L67">		return &quot;product updated &quot;;</span>
+	}
+
+	public String deleteById(String id) {
+<span class="nc" id="L71">		productRepository.deleteById(id);</span>
+<span class="nc" id="L72">		return &quot;product deleted&quot;;</span>
+
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

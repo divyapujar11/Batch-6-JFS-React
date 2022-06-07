@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">product</a> &gt; <a href="index.source.html" class="el_package">com.cg.product.controller</a> &gt; <span class="el_source">ProductController.java</span></div><h1>ProductController.java</h1><pre class="source lang-java linenums">package com.cg.product.controller;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cg.product.model.Product;
+import com.cg.product.service.ProductService;
+
+import lombok.extern.slf4j.Slf4j;
+
+<span class="fc" id="L24">@Slf4j</span>
+@CrossOrigin(origins = &quot;*&quot;)
+@RestController
+@RequestMapping(&quot;/v1&quot;)
+public class ProductController {
+
+	private ProductService productService;
+
+<span class="fc" id="L32">	public ProductController(ProductService productservice) {</span>
+<span class="fc" id="L33">		this.productService = productservice;</span>
+<span class="fc" id="L34">	}</span>
+
+	@PostMapping(&quot;/addProduct&quot;)
+	ResponseEntity&lt;Product&gt; addProduct(@RequestBody @Valid Product product) {
+
+<span class="nc" id="L39">		String status = productService.addProduct(product);</span>
+
+<span class="nc" id="L41">		log.info(&quot;Product added status-{}&quot;, status);</span>
+<span class="nc" id="L42">		return ResponseEntity.status(HttpStatus.CREATED).body(product);</span>
+
+	}
+
+	@GetMapping(&quot;/productList&quot;)
+	List&lt;Product&gt; productList() {
+<span class="nc" id="L48">		return productService.listAllProduct();</span>
+	}
+
+	@GetMapping(&quot;/productList/catagory&quot;)
+	List&lt;Product&gt; productCatagoryList(@PathVariable String catagory) {
+<span class="nc" id="L53">		return productService.productCatagoryList(catagory);</span>
+	}
+
+	@GetMapping(&quot;/productList/{id}&quot;)
+	Product productById(@PathVariable String id) {
+<span class="nc" id="L58">		return productService.productById(id);</span>
+	}
+
+	@PutMapping
+	String updateProduct(@RequestBody Product product) {
+<span class="nc" id="L63">		return productService.updateProduct(product);</span>
+	}
+
+	@DeleteMapping(&quot;/product/{id}&quot;)
+	String deleteById(@PathVariable String id) {
+<span class="nc" id="L68">		return productService.deleteById(id);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
